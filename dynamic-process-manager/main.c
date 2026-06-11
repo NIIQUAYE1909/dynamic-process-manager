@@ -16,14 +16,14 @@ int main(){
      printf("How many processes? ");
      scanf("%d", &Oldcount);
 
-     processes = (Process*) malloc(count * sizeof(Process));
+     processes = (Process*) malloc(Oldcount * sizeof(Process));
 
      if(processes == NULL){
          perror("Memory allocation failed\n");
          return 1;
      }
 
-          for(int i = 0; i < count; i++) {
+          for(int i = 0; i < Oldcount; i++) {
       printf("\nProcess %d\n", i + 1);
 
       printf("Enter PID: ");
@@ -38,7 +38,7 @@ int main(){
      int newCount = 0;
         printf("\nHow many processes to add? ");
         scanf("%d", &newCount);
-        
+
         int count = Oldcount + newCount;
      
      Process* temp = (Process*) realloc(processes, count * sizeof(Process));
@@ -50,7 +50,7 @@ int main(){
             processes = temp;
             temp = NULL;
 
-            for(int i = 0; i < count; i++) {
+            for(int i = Oldcount; i < count; i++) {
                 printf("\nProcess %d\n", i + 1);
 
                 printf("Enter PID: ");
