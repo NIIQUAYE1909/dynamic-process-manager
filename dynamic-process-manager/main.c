@@ -35,10 +35,11 @@ int main(){
       printf("Enter Memory Usage: ");
       scanf("%f", &processes[i].memoryUsage);
   }
-     int count = Oldcount + newCount;
      int newCount = 0;
         printf("\nHow many processes to add? ");
         scanf("%d", &newCount);
+        
+        int count = Oldcount + newCount;
      
      Process* temp = (Process*) realloc(processes, count * sizeof(Process));
         if(temp == NULL){
