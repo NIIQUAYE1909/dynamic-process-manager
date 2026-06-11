@@ -57,6 +57,22 @@ void AddProcess(Process** processes, int* Oldcount){
     }
 }
 
+void ViewProcesses(Process* processes, int count){
+    // Logic to view processes
+    if(count == 0){
+        perror("No processes to display.\n");
+        exit(1);
+    }
+    printf("\nCurrent Processes:\n");
+    for(int i = 0; i < count; i++){
+        printf("Process %d\n", i + 1);
+        printf("PID: %d\n", processes[i].pid);
+        printf("Name: %s\n", processes[i].name);
+        printf("Memory Usage: %.2f MB\n", processes[i].memoryUsage);
+        printf("-------------------------\n");
+    }
+}
+
 int main(){
     Process* processes = NULL;
     int Oldcount = 0;
@@ -79,6 +95,7 @@ int main(){
                 break;
             case 2:
                 // View Processes logic
+                ViewProcesses(processes, Oldcount);
                 break;
             case 3:
                 // Delete Process logic
@@ -93,17 +110,6 @@ int main(){
     }
 
     
-
-      printf("\n--- PROCESS LIST ---\n");
-
-     for(int i = 0; i < (Oldcount); i++) {
-           printf("PID: %d | Name: %s | Memory: %.2f MB\n",
-           processes[i].pid,
-           processes[i].name,
-           processes[i].memoryUsage);
-     }
-     
-     free(processes);
      return 0;
 
 }
@@ -158,4 +164,16 @@ int main(){
                 scanf("%f", &processes[i].memoryUsage);
             }
 
-        }*/
+        */
+
+
+        /*  printf("\n--- PROCESS LIST ---\n");
+
+     for(int i = 0; i < (Oldcount); i++) {
+           printf("PID: %d | Name: %s | Memory: %.2f MB\n",
+           processes[i].pid,
+           processes[i].name,
+           processes[i].memoryUsage);
+     }
+     
+     free(processes);*/
