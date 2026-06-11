@@ -22,6 +22,19 @@ void AddProcess(Process** processes, int* Oldcount){
             perror("Memory allocation failed\n");
             exit(1);
         }
+        for(int i = 0; i < (*Oldcount); i++) {
+            printf("\nProcess %d\n", i + 1);
+
+            printf("Enter PID: ");
+            scanf("%d", &(*processes)[i].pid);
+
+            printf("Enter Name: ");
+            scanf("%s", (*processes)[i].name);
+
+            printf("Enter Memory Usage: ");
+            scanf("%f", &(*processes)[i].memoryUsage);
+        }
+
     
     }else{
         int newCount = 0;
@@ -60,8 +73,8 @@ void AddProcess(Process** processes, int* Oldcount){
 void ViewProcesses(Process* processes, int count){
     // Logic to view processes
     if(count == 0){
-        perror("No processes to display.\n");
-        exit(1);
+        printf("No processes to display.\n");
+        return;
     }
     printf("\nCurrent Processes:\n");
     for(int i = 0; i < count; i++){
