@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct{
     int pid;
@@ -20,7 +21,8 @@ int main(){
      if(processes == NULL){
          fprintf(stderr, "Memory allocation failed\n");
          return 1;
-     }else{
+     }
+
           for(int i = 0; i < count; i++) {
       printf("\nProcess %d\n", i + 1);
 
@@ -33,16 +35,44 @@ int main(){
       printf("Enter Memory Usage: ");
       scanf("%f", &processes[i].memoryUsage);
   }
+
+     int newCount = 0;
+        printf("\nHow many processes to add? ");
+        scanf("%d", &newCount);
+     
+     Process* temp = (Process*) realloc(processes, newCount * sizeof(Process));
+        if(temp == NULL){
+            fprintf(stderr, "Memory reallocation failed\n");
+            free(processes);
+            return 1;
+        }else{
+            processes = temp;
+            temp = NULL;
+
+            for(int i = 0; i < (count += newCount); i++) {
+                printf("\nProcess %d\n", i + 1);
+
+                printf("Enter PID: ");
+                scanf("%d", &processes[i].pid);
+
+                printf("Enter Name: ");
+                scanf("%s", processes[i].name);
+
+                printf("Enter Memory Usage: ");
+                scanf("%f", &processes[i].memoryUsage);
+            }
+
+        }
+
       printf("\n--- PROCESS LIST ---\n");
 
-     for(int i = 0; i < count; i++) {
+     for(int i = 0; i < (count += newCount); i++) {
            printf("PID: %d | Name: %s | Memory: %.2f MB\n",
            processes[i].pid,
            processes[i].name,
            processes[i].memoryUsage);
      }
      
-     }
      free(processes);
      return 0;
 
