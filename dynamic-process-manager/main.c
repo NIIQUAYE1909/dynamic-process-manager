@@ -9,11 +9,106 @@ typedef struct{
     float memoryUsage;
 } Process;
 
-int main(){
-     Process* processes = NULL;
-     int Oldcount = 0;
+void AddProcess(Process** processes, int* Oldcount){
+    // Logic to add a process
 
-     printf("How many processes? ");
+    if(*Oldcount == 0){
+        printf("How many processes? ");
+        scanf("%d", Oldcount);
+
+        *processes = (Process*) malloc((*Oldcount) * sizeof(Process));
+
+        if(*processes == NULL){
+            perror("Memory allocation failed\n");
+            exit(1);
+        }
+    
+    }else{
+        int newCount = 0;
+        printf("\nHow many processes to add? ");
+        scanf("%d", &newCount);
+
+        int count = (*Oldcount) + newCount;
+     
+     Process* temp = (Process*) realloc(*processes, count * sizeof(Process));
+        if(temp == NULL){
+            perror("Memory reallocation failed\n");
+            free(*processes);
+            exit(1);
+        }else{
+            *processes = temp;
+            temp = NULL;
+
+            for(int i = (*Oldcount); i < count; i++) {
+                printf("\nProcess %d\n", i + 1);
+
+                printf("Enter PID: ");
+                scanf("%d", &(*processes)[i].pid);
+
+                printf("Enter Name: ");
+                scanf("%s", (*processes)[i].name);
+
+                printf("Enter Memory Usage: ");
+                scanf("%f", &(*processes)[i].memoryUsage);
+            }
+
+            *Oldcount = count;
+        }
+    }
+}
+
+int main(){
+    Process* processes = NULL;
+    int Oldcount = 0;
+    bool Exit = true;
+
+    while(Exit){
+        printf("Welcome to the Dynamic Process Manager\n");
+        printf("1. Add Process\n");
+        printf("2. View Processes\n");
+        printf("3. Delete Process\n");
+        printf("4. Exit\n");
+        int choice = 0;
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice){
+            case 1:
+                // Add Process logic
+                    AddProcess(&processes, &Oldcount);
+                break;
+            case 2:
+                // View Processes logic
+                break;
+            case 3:
+                // Delete Process logic
+                break;
+            case 4:
+                Exit = false;
+                printf("Thanks for using the Dynamic Process Manager!\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    
+
+      printf("\n--- PROCESS LIST ---\n");
+
+     for(int i = 0; i < (Oldcount); i++) {
+           printf("PID: %d | Name: %s | Memory: %.2f MB\n",
+           processes[i].pid,
+           processes[i].name,
+           processes[i].memoryUsage);
+     }
+     
+     free(processes);
+     return 0;
+
+}
+
+/* printf("How many processes? ");
      scanf("%d", &Oldcount);
 
      processes = (Process*) malloc(Oldcount * sizeof(Process));
@@ -63,18 +158,4 @@ int main(){
                 scanf("%f", &processes[i].memoryUsage);
             }
 
-        }
-
-      printf("\n--- PROCESS LIST ---\n");
-
-     for(int i = 0; i < (count); i++) {
-           printf("PID: %d | Name: %s | Memory: %.2f MB\n",
-           processes[i].pid,
-           processes[i].name,
-           processes[i].memoryUsage);
-     }
-     
-     free(processes);
-     return 0;
-
-}
+        }*/
