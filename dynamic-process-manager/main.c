@@ -54,6 +54,10 @@ int main(){
                 SearchProcess(processes, Oldcount);
                 break;
             case 5:
+                // Save Processes logic
+                SaveProcesses(processes, Oldcount);
+                break;
+            case 6:
                 Exit = false;
                 free(processes);
                 printf("Thanks for using the Dynamic Process Manager!\n");
