@@ -15,6 +15,8 @@ void ViewProcesses(Process* processes, int count);
 
 void DeleteProcess(Process** processes, int* Oldcount);
 
+void SearchProcess(Process* processes, int count);
+
 int main(){
     Process* processes = NULL;
     int Oldcount = 0;
@@ -25,7 +27,8 @@ int main(){
         printf("1. Add Process\n");
         printf("2. View Processes\n");
         printf("3. Delete Process\n");
-        printf("4. Exit\n");
+        printf("4. Search Process\n");
+        printf("5. Exit\n");
         int choice = 0;
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -44,7 +47,12 @@ int main(){
                 DeleteProcess(&processes, &Oldcount);   
                 break;
             case 4:
+                // Search Process logic
+                SearchProcess(processes, Oldcount);
+                break;
+            case 5:
                 Exit = false;
+                free(processes);
                 printf("Thanks for using the Dynamic Process Manager!\n");
                 break;
             default:
@@ -172,4 +180,25 @@ void DeleteProcess(Process** processes, int* Oldcount){
     free(*processes);
     *processes = NULL;
 
+}
+
+void SearchProcess(Process* processes, int count){
+    // Logic to search for a process
+    if(count == 0){
+        printf("No processes to search.\n");
+        return;
+    }
+    int pidToSearch;
+    printf("Enter the PID of the process to search: ");
+    scanf("%d", &pidToSearch);
+    for(int i = 0; i < count; i++){
+        if(processes[i].pid == pidToSearch){
+            printf("Process found:\n");
+            printf("PID: %d\n", processes[i].pid);
+            printf("Name: %s\n", processes[i].name);
+            printf("Memory Usage: %.2f MB\n", processes[i].memoryUsage);
+            return;
+        }
+    }
+    printf("Process with PID %d not found.\n", pidToSearch);
 }
