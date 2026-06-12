@@ -41,6 +41,7 @@ int main(){
                 break;
             case 3:
                 // Delete Process logic
+                DeleteProcess(&processes, &Oldcount);   
                 break;
             case 4:
                 Exit = false;
