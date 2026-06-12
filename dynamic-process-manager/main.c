@@ -17,6 +17,8 @@ void DeleteProcess(Process** processes, int* Oldcount);
 
 void SearchProcess(Process* processes, int count);
 
+void SaveProcesses(Process* processes, int count);
+
 int main(){
     Process* processes = NULL;
     int Oldcount = 0;
@@ -28,7 +30,8 @@ int main(){
         printf("2. View Processes\n");
         printf("3. Delete Process\n");
         printf("4. Search Process\n");
-        printf("5. Exit\n");
+        printf("5. Save Processes\n");
+        printf("6. Exit\n");
         int choice = 0;
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -201,4 +204,27 @@ void SearchProcess(Process* processes, int count){
         }
     }
     printf("Process with PID %d not found.\n", pidToSearch);
+}
+
+
+
+void SaveProcesses(Process* processes, int count){
+    // Logic to save processes to a file
+    if(count == 0){
+        printf("No processes to save.\n");
+        return;
+    }
+    FILE* file = fopen("processes.txt", "w");
+    if(file == NULL){
+        perror("Could not open file for writing\n");
+        return;
+    }
+    for(int i = 0; i < count; i++){
+        fprintf(file, "PID: %d\n", processes[i].pid);
+        fprintf(file, "Name: %s\n", processes[i].name);
+        fprintf(file, "Memory Usage: %.2f MB\n", processes[i].memoryUsage);
+        fprintf(file, "-------------------------\n");
+    }
+    fclose(file);
+    printf("Processes saved to processes.txt\n");
 }
