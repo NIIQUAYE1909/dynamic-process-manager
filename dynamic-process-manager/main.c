@@ -9,82 +9,9 @@ typedef struct{
     float memoryUsage;
 } Process;
 
-void AddProcess(Process** processes, int* Oldcount){
-    // Logic to add a process
+void AddProcess(Process** processes, int* Oldcount);
 
-    if(*Oldcount == 0){
-        printf("How many processes? ");
-        scanf("%d", Oldcount);
-
-        *processes = (Process*) malloc((*Oldcount) * sizeof(Process));
-
-        if(*processes == NULL){
-            perror("Memory allocation failed\n");
-            exit(1);
-        }
-        for(int i = 0; i < (*Oldcount); i++) {
-            printf("\nProcess %d\n", i + 1);
-
-            printf("Enter PID: ");
-            scanf("%d", &(*processes)[i].pid);
-
-            printf("Enter Name: ");
-            scanf("%s", (*processes)[i].name);
-
-            printf("Enter Memory Usage: ");
-            scanf("%f", &(*processes)[i].memoryUsage);
-        }
-
-    
-    }else{
-        int newCount = 0;
-        printf("\nHow many processes to add? ");
-        scanf("%d", &newCount);
-
-        int count = (*Oldcount) + newCount;
-     
-     Process* temp = (Process*) realloc(*processes, count * sizeof(Process));
-        if(temp == NULL){
-            perror("Memory reallocation failed\n");
-            free(*processes);
-            exit(1);
-        }else{
-            *processes = temp;
-            temp = NULL;
-
-            for(int i = (*Oldcount); i < count; i++) {
-                printf("\nProcess %d\n", i + 1);
-
-                printf("Enter PID: ");
-                scanf("%d", &(*processes)[i].pid);
-
-                printf("Enter Name: ");
-                scanf("%s", (*processes)[i].name);
-
-                printf("Enter Memory Usage: ");
-                scanf("%f", &(*processes)[i].memoryUsage);
-            }
-
-            *Oldcount = count;
-        }
-    }
-}
-
-void ViewProcesses(Process* processes, int count){
-    // Logic to view processes
-    if(count == 0){
-        printf("No processes to display.\n");
-        return;
-    }
-    printf("\nCurrent Processes:\n");
-    for(int i = 0; i < count; i++){
-        printf("Process %d\n", i + 1);
-        printf("PID: %d\n", processes[i].pid);
-        printf("Name: %s\n", processes[i].name);
-        printf("Memory Usage: %.2f MB\n", processes[i].memoryUsage);
-        printf("-------------------------\n");
-    }
-}
+void ViewProcesses(Process* processes, int count);
 
 int main(){
     Process* processes = NULL;
@@ -127,66 +54,81 @@ int main(){
 
 }
 
-/* printf("How many processes? ");
-     scanf("%d", &Oldcount);
+// FUNCTIONS 
 
-     processes = (Process*) malloc(Oldcount * sizeof(Process));
+void AddProcess(Process** processes, int* Oldcount){
+    // Logic to add a process
 
-     if(processes == NULL){
-         perror("Memory allocation failed\n");
-         return 1;
-     }
+    if(*Oldcount == 0){
+        printf("How many processes? ");
+        scanf("%d", Oldcount);
 
-          for(int i = 0; i < Oldcount; i++) {
-      printf("\nProcess %d\n", i + 1);
+        *processes = (Process*) malloc((*Oldcount) * sizeof(Process));
 
-      printf("Enter PID: ");
-      scanf("%d", &processes[i].pid);
+        if(*processes == NULL){
+            perror("Memory allocation failed\n");
+            return;
+        }
+        for(int i = 0; i < (*Oldcount); i++) {
+            printf("\nProcess %d\n", i + 1);
 
-      printf("Enter Name: ");
-      scanf("%s", processes[i].name);
+            printf("Enter PID: ");
+            scanf("%d", &(*processes)[i].pid);
 
-      printf("Enter Memory Usage: ");
-      scanf("%f", &processes[i].memoryUsage);
-  }
-     int newCount = 0;
+            printf("Enter Name: ");
+            scanf("%s", (*processes)[i].name);
+
+            printf("Enter Memory Usage: ");
+            scanf("%f", &(*processes)[i].memoryUsage);
+        }
+
+    
+    }else{
+        int newCount = 0;
         printf("\nHow many processes to add? ");
         scanf("%d", &newCount);
 
-        int count = Oldcount + newCount;
+        int count = (*Oldcount) + newCount;
      
-     Process* temp = (Process*) realloc(processes, count * sizeof(Process));
+     Process* temp = (Process*) realloc(*processes, count * sizeof(Process));
         if(temp == NULL){
             perror("Memory reallocation failed\n");
-            free(processes);
-            return 1;
+            free(*processes);
+            return;
         }else{
-            processes = temp;
+            *processes = temp;
             temp = NULL;
 
-            for(int i = Oldcount; i < count; i++) {
+            for(int i = (*Oldcount); i < count; i++) {
                 printf("\nProcess %d\n", i + 1);
 
                 printf("Enter PID: ");
-                scanf("%d", &processes[i].pid);
+                scanf("%d", &(*processes)[i].pid);
 
                 printf("Enter Name: ");
-                scanf("%s", processes[i].name);
+                scanf("%s", (*processes)[i].name);
 
                 printf("Enter Memory Usage: ");
-                scanf("%f", &processes[i].memoryUsage);
+                scanf("%f", &(*processes)[i].memoryUsage);
             }
 
-        */
+            *Oldcount = count;
+        }
+    }
+}
 
-
-        /*  printf("\n--- PROCESS LIST ---\n");
-
-     for(int i = 0; i < (Oldcount); i++) {
-           printf("PID: %d | Name: %s | Memory: %.2f MB\n",
-           processes[i].pid,
-           processes[i].name,
-           processes[i].memoryUsage);
-     }
-     
-     free(processes);*/
+void ViewProcesses(Process* processes, int count){
+    // Logic to view processes
+    if(count == 0){
+        printf("No processes to display.\n");
+        return;
+    }
+    printf("\nCurrent Processes:\n");
+    for(int i = 0; i < count; i++){
+        printf("Process %d\n", i + 1);
+        printf("PID: %d\n", processes[i].pid);
+        printf("Name: %s\n", processes[i].name);
+        printf("Memory Usage: %.2f MB\n", processes[i].memoryUsage);
+        printf("-------------------------\n");
+    }
+}
