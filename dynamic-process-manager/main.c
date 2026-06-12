@@ -190,9 +190,7 @@ void DeleteProcess(Process** processes, int* Oldcount){
         *processes = temp;
         temp = NULL;    
     }
-
-    free(*processes);
-    *processes = NULL;
+     printf("Process with PID %d deleted successfully.\n", pidToDelete);
 
 }
 
