@@ -19,6 +19,8 @@ void SearchProcess(Process* processes, int count);
 
 void SaveProcesses(Process* processes, int count);
 
+void LoadProcesses(Process** processes, int* Oldcount);
+
 int main(){
     Process* processes = NULL;
     int Oldcount = 0;
@@ -31,7 +33,8 @@ int main(){
         printf("3. Delete Process\n");
         printf("4. Search Process\n");
         printf("5. Save Processes\n");
-        printf("6. Exit\n");
+        printf("6. Load Processes\n");
+        printf("7. Exit\n");
         int choice = 0;
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -58,6 +61,10 @@ int main(){
                 SaveProcesses(processes, Oldcount);
                 break;
             case 6:
+                // Load Processes logic
+                LoadProcesses(&processes, &Oldcount);
+                break;
+            case 7:
                 Exit = false;
                 free(processes);
                 printf("Thanks for using the Dynamic Process Manager!\n");
@@ -231,4 +238,42 @@ void SaveProcesses(Process* processes, int count){
     }
     fclose(file);
     printf("Processes saved to processes.txt\n");
+}
+
+
+void LoadProcesses(Process** processes, int* Oldcount){
+    // Logic to load processes from a file
+    FILE* file = fopen("processes.txt", "r");
+    if(file == NULL){
+        perror("Could not open file for reading\n");
+        return;
+    }
+    char line[1024];
+    int count = 0;
+    while(fgets(line, sizeof(line), file) != NULL){
+        if(strncmp(line, "PID:", 4) == 0){
+            count++;
+        }
+    }
+    rewind(file);
+    *processes = (Process*) malloc(count * sizeof(Process));
+    if(*processes == NULL){
+        perror("Memory allocation failed\n");
+        fclose(file);
+        return;
+    }
+    int index = 0;
+    while(fgets(line, sizeof(line), file) != NULL){
+        if(strncmp(line, "PID:", 4) == 0){
+            sscanf(line, "PID: %d", &(*processes)[index].pid);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Name: %s", (*processes)[index].name);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "Memory Usage: %f MB", &(*processes)[index].memoryUsage);
+            index++;
+        }
+    }
+    fclose(file);
+    *Oldcount = count;
+    printf("Processes loaded from processes.txt\n");
 }
