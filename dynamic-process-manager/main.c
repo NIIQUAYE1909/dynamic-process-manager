@@ -13,6 +13,8 @@ void AddProcess(Process** processes, int* Oldcount);
 
 void ViewProcesses(Process* processes, int count);
 
+void DeleteProcess(Process** processes, int* Oldcount);
+
 int main(){
     Process* processes = NULL;
     int Oldcount = 0;
@@ -131,4 +133,29 @@ void ViewProcesses(Process* processes, int count){
         printf("Memory Usage: %.2f MB\n", processes[i].memoryUsage);
         printf("-------------------------\n");
     }
+}
+void DeleteProcess(Process** processes, int* Oldcount){
+    // Logic to delete a process
+    if(*Oldcount == 0){
+        printf("No processes to delete.\n");
+        return;
+    }
+    int pidToDelete;
+    printf("Enter the PID of the process to delete: ");
+    scanf("%d", &pidToDelete);
+    int indexToDelete = -1;
+    for(int i = 0; i < (*Oldcount); i++){
+        if((*processes)[i].pid == pidToDelete){
+            indexToDelete = i;
+            break;
+        }
+    }
+    if(indexToDelete == -1){
+        printf("Process with PID %d not found.\n", pidToDelete);
+        return;
+    }
+    for(int i = indexToDelete; i < (*Oldcount) - 1; i++){
+        (*processes)[i] = (*processes)[i + 1];
+    }
+    (*Oldcount)--;
 }
