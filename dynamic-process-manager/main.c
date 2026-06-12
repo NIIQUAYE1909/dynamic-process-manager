@@ -158,4 +158,17 @@ void DeleteProcess(Process** processes, int* Oldcount){
         (*processes)[i] = (*processes)[i + 1];
     }
     (*Oldcount)--;
+
+    Process* temp = (Process*) realloc(*processes, (*Oldcount) * sizeof(Process));
+    if(temp == NULL && (*Oldcount) > 0){
+        perror("Memory reallocation failed\n");
+        return;
+    }else{
+        *processes = temp;
+        temp = NULL;    
+    }
+
+    free(*processes);
+    *processes = NULL;
+
 }
