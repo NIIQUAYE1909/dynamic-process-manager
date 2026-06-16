@@ -21,6 +21,8 @@ void SaveProcesses(Process* processes, int count);
 
 void LoadProcesses(Process** processes, int* Oldcount);
 
+void UpdateProcess(Process* processses, int count);
+
 int main(){
     Process* processes = NULL;
     int Oldcount = 0;
@@ -34,7 +36,8 @@ int main(){
         printf("4. Search Process\n");
         printf("5. Save Processes\n");
         printf("6. Load Processes\n");
-        printf("7. Exit\n");
+        printf("7. Update Process\n");
+        printf("8. Exit\n");
         int choice = 0;
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -65,6 +68,10 @@ int main(){
                 LoadProcesses(&processes, &Oldcount);
                 break;
             case 7:
+                // Update Process logic
+                UpdateProcess(processes, Oldcount);
+                break;
+            case 8:
                 Exit = false;
                 free(processes);
                 printf("Thanks for using the Dynamic Process Manager!\n");
@@ -274,4 +281,33 @@ void LoadProcesses(Process** processes, int* Oldcount){
     fclose(file);
     *Oldcount = count;
     printf("Processes loaded from processes.txt\n");
+}
+
+
+void UpdateProcess(Process* processses, int count){
+    // Logic to update a process
+    if(count == 0){
+        printf("No processes to update.\n");
+        return;
+    }
+    int pidToUpdate;
+    printf("Enter the PID of the process to update: ");
+    scanf("%d", &pidToUpdate);
+    for(int i = 0; i < count; i++){
+        if(processses[i].pid == pidToUpdate){
+            printf("Process found. Enter new details:\n");
+
+            printf("Enter Name: ");
+            scanf("%s", processses[i].name);
+
+            printf("Enter Memory Usage: ");
+            scanf("%f", &processses[i].memoryUsage);
+
+            printf("Process with PID %d updated successfully.\n", pidToUpdate);
+            return;
+        }
+    }
+    printf("Process with PID %d not found.\n", pidToUpdate);
+    
+    
 }
